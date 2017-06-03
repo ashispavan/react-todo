@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
+//import  buttonStyle from '../styles/materialize.min.css';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
-
+const buttonStyle = {
+    marginRight: '5px',
+    marginLeft: '5px'
+}
 class TodoListItem extends Component {
 
     constructor(props){
@@ -10,19 +16,20 @@ class TodoListItem extends Component {
             onEditMode: false
         }
     }
-
+    
     renderTasks() {
         const {task, isCompleted} = this.props;
         const taskStyle = {
             color: isCompleted ? 'green' : 'red',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            width: '256px'
         }
 
         if(this.state.onEditMode) {
             return (
                 <td>
                 <form  onSubmit={this.onSaveClick.bind(this)}>
-                    <input type="text" defaultValue={task} ref="editInput"/>
+                    <TextField name="editInput" defaultValue={task} ref="editInput"/>
                 </form>
                 
                 </td>
@@ -42,7 +49,7 @@ class TodoListItem extends Component {
 
     onSaveClick(event) {
         event.preventDefault();
-        this.props.onSaveClick(this.props.task, this.refs.editInput.value);
+        this.props.onSaveClick(this.props.task, this.refs.editInput.input.value);
         this.setState({onEditMode:false});
     }
     
@@ -64,17 +71,19 @@ class TodoListItem extends Component {
         if (this.state.onEditMode) {
             return (
                 <td>
-                    <button onClick={this.onSaveClick.bind(this)}>Save</button>
-                    <button onClick={this.onCancelClick.bind(this)}>Cancel</button>
+                    <RaisedButton style={buttonStyle} primary={true} label="Save" onClick={this.onSaveClick.bind(this)} />
+                    <RaisedButton style={buttonStyle} primary={true} label="Cancel" onClick={this.onCancelClick.bind(this)} />
                 </td>
             );
         }
 
         return (
+
             <td>
-                <button onClick={this.onEditClick.bind(this)}>Edit</button>
-                <button onClick={this.props.deleteTask.bind(this, this.props.task)}>Delete</button>
-            </td>          
+                <RaisedButton style={buttonStyle} primary={true} label="Edit" onClick={this.onEditClick.bind(this)} />
+                <RaisedButton style={buttonStyle} secondary={true} label="Delete" onClick={this.props.deleteTask.bind(this, this.props.task)} />
+            </td>   
+      
         );
     }
 

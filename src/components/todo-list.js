@@ -4,20 +4,38 @@ import TodoListItem from './todo-list-item';
 
 class TodoList extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            todoEmpty: false
+        }
+    }
+    
     render(){
         return (
             <table className="todo-list">
             <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>Action</th>
-                </tr>
+                {this.renderHeader()}
             </thead>
             <tbody className="list-items">
                 {this.renderItems()}
             </tbody>
             </table>
         );
+    }
+
+    renderHeader() {
+        //this.setState({todoEmpty:this.props.todos.length ? false : true});
+        if (!this.state.todoEmpty) {
+            return (
+                <tr>
+                    <th>Task</th>
+                    <th>Action</th>
+                </tr>
+            );
+        }
+
     }
 
     renderItems(){

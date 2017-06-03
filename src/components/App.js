@@ -4,6 +4,22 @@ import '../App.css';
 import TodoList from './todo-list';
 import CreateTask from './create-task';
 import _ from 'lodash';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
+
+const style = {
+  minHeight: 500,
+  width: 500,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  textAlign: 'center',
+  marginTop: '20px'
+};
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
   const todos = [
     {
@@ -15,6 +31,7 @@ import _ from 'lodash';
       isCompleted: false
     }
   ];
+
 
 
 class App extends Component {
@@ -29,18 +46,22 @@ class App extends Component {
 
   render() {
     return (
+    <MuiThemeProvider> 
+      <Paper style={style} zDepth={1}>
       <div className="App">
         <div className="App-header">
           <img src={logo} alt="" className="App-logo"/>
           <h2>React Todo App</h2>
         </div>
-        <CreateTask createTask={this.createTask.bind(this)}/>
+        <CreateTask todos={this.state.todos} createTask={this.createTask.bind(this)}/>
         <TodoList todos={this.state.todos} 
         toggleTask={this.toggleTask.bind(this)}
         onSaveClick={this.onSaveClick.bind(this)}
         deleteTask={this.deleteTask.bind(this)}
         />
       </div>
+      </Paper>
+    </MuiThemeProvider> 
     );
 
   }
